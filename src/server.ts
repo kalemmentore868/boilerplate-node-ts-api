@@ -2,7 +2,9 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 
-import authRouter from "./routes/authRoutes";
+import authRoutes from "./routes/authRoutes";
+import customerRoutes from "./routes/customerRoutes";
+import analyticsRoutes from "./routes/analyticsRoutes";
 import { ExpressError, NotFoundError } from "./helpers/errors";
 import { authenticateJWT } from "./middleware/auth";
 
@@ -16,7 +18,9 @@ app.use(express.urlencoded({ extended: true })); // parse URL-encoded bodies
 app.use(authenticateJWT);
 
 // Routes
-app.use("/auth", authRouter);
+app.use("/api/auth", authRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 // Health check
 app.get("/health", (_req, res) => {
