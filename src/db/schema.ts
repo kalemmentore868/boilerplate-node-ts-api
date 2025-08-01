@@ -34,6 +34,7 @@ export const categories = pgEnum("category", [
 export const Users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   username: varchar("username", { length: 50 }).notNull().unique(),
+  email: varchar("email", { length: 100 }).notNull().unique(),
   passwordHash: varchar("password_hash", { length: 255 }).notNull(),
   role: userRole("role").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
