@@ -86,7 +86,7 @@ export const Orders = pgTable("orders", {
   id: uuid("id").defaultRandom().primaryKey(),
   customerId: uuid("customer_id")
     .notNull()
-    .references(() => Customers.id),
+    .references(() => Customers.id, { onDelete: "cascade" }),
   orderDate: timestamp("order_date", { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -121,7 +121,7 @@ export const OrderItems = pgTable("order_items", {
   id: uuid("id").defaultRandom().primaryKey(),
   orderId: uuid("order_id")
     .notNull()
-    .references(() => Orders.id),
+    .references(() => Orders.id, { onDelete: "cascade" }),
   productId: uuid("product_id")
     .notNull()
     .references(() => Products.id),

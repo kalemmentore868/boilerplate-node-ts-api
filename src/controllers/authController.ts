@@ -1,5 +1,5 @@
 // src/controllers/authController.ts
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { eq, sql } from "drizzle-orm";
@@ -7,6 +7,7 @@ import { db } from "../db";
 import { Users } from "../db/schema";
 import {
   BadRequestError,
+  ExpressError,
   InternalServerError,
   UnauthorizedError,
 } from "../helpers/errors";
@@ -56,7 +57,11 @@ export async function registerUser(req: Request, res: Response) {
   }
 }
 
-export async function loginUser(req: Request, res: Response) {
+export async function loginUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -95,8 +100,15 @@ export async function loginUser(req: Request, res: Response) {
       token,
     };
     return res.json({ message: "Login successful", data });
-  } catch (error) {
-    console.error("Login error:", error);
-    throw new InternalServerError("Failed to login.");
+  } catch (err: any) {
+    console.error("Login error:", err);
+
+    // If it's one of our ExpressError subclasses, re-throw it
+    if (err instanceof ExpressError) {
+      return next(err);
+    }
+
+    // Otherwise wrap in a 500
+    return next(new InternalServerError("Failed to login."));
   }
 }

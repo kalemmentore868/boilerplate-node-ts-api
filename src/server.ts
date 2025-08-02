@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import customerRoutes from "./routes/customerRoutes";
 import analyticsRoutes from "./routes/analyticsRoutes";
+import orderRoutes from "./routes/orderRoutes";
 import { ExpressError, NotFoundError } from "./helpers/errors";
 import { authenticateJWT } from "./middleware/auth";
 
@@ -21,6 +22,7 @@ app.use(authenticateJWT);
 app.use("/api/auth", authRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/customers/:customerId/orders", orderRoutes);
 
 // Health check
 app.get("/health", (_req, res) => {
