@@ -6,8 +6,10 @@ import authRoutes from "./routes/authRoutes";
 import customerRoutes from "./routes/customerRoutes";
 import analyticsRoutes from "./routes/analyticsRoutes";
 import orderRoutes from "./routes/orderRoutes";
+import bareOrderRoutes from "./routes/bareOrderRoutes";
 import productRoutes from "./routes/productRoutes";
 import reportRoutes from "./routes/reportRoutes";
+import userRoutes from "./routes/userRoutes";
 import { ExpressError, NotFoundError } from "./helpers/errors";
 import { authenticateJWT } from "./middleware/auth";
 
@@ -27,6 +29,8 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/customers/:customerId/orders", orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/orders", bareOrderRoutes);
+app.use("/api/users", userRoutes);
 
 // Health check
 app.get("/health", (_req, res) => {

@@ -101,14 +101,7 @@ export async function loginUser(
     };
     return res.json({ message: "Login successful", data });
   } catch (err: any) {
-    console.error("Login error:", err);
-
     // If it's one of our ExpressError subclasses, re-throw it
-    if (err instanceof ExpressError) {
-      return next(err);
-    }
-
-    // Otherwise wrap in a 500
-    return next(new InternalServerError("Failed to login."));
+    next(err);
   }
 }

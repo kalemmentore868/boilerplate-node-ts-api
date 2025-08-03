@@ -8,13 +8,15 @@ import {
   deleteProduct,
 } from "../controllers/productController";
 import { ensureLoggedIn } from "../middleware/auth";
+import { validate } from "../middleware/validate";
+import { createProductSchema } from "../schemas/products";
 
 const router = Router();
 
 router
   .route("/")
   .get(ensureLoggedIn, getAllProducts)
-  .post(ensureLoggedIn, createProduct);
+  .post(ensureLoggedIn, validate(createProductSchema), createProduct);
 
 router
   .route("/:id")

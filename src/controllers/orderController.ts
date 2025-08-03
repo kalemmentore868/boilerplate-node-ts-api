@@ -316,3 +316,19 @@ export async function deleteOrder(
     return next(err);
   }
 }
+
+export async function getAllOrders(
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const orders = await db.select().from(Orders).execute();
+    return res.json({
+      message: "Orders retrieved successfully.",
+      data: orders,
+    });
+  } catch (err) {
+    return next(err);
+  }
+}
