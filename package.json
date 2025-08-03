@@ -21,6 +21,7 @@
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.1.0",
+    "@types/pdfkit": "^0.17.2",
     "@types/pg": "^8.15.5",
     "dotenv": "^17.2.1",
     "drizzle-kit": "^0.31.4",
@@ -35,9 +36,14 @@
     "@faker-js/faker": "^9.9.0",
     "@xata.io/client": "^0.0.0-next.v93343b9646f57a1e5c51c35eccf0767c2bb80baa",
     "bcrypt": "^6.0.0",
+    "canvas": "^3.1.2",
+    "chart.js": "^4.5.0",
+    "chartjs-node-canvas": "^5.0.0",
     "cors": "^2.8.5",
     "drizzle-orm": "^0.44.4",
     "jsonwebtoken": "^9.0.2",
+    "openai": "^5.11.0",
+    "pdfkit": "^0.17.1",
     "pg": "^8.16.3",
     "zod": "^4.0.14"
   }
