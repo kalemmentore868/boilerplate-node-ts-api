@@ -8,6 +8,8 @@ import {
   deleteOrder,
 } from "../controllers/orderController";
 import { ensureLoggedIn } from "../middleware/auth";
+import { validate } from "../middleware/validate";
+import { createOrderSchema, updateOrderSchema } from "../schemas/order";
 
 const router = Router({ mergeParams: true });
 
@@ -18,7 +20,7 @@ const router = Router({ mergeParams: true });
 router
   .route("/")
   .get(ensureLoggedIn, getOrdersForCustomer)
-  .post(ensureLoggedIn, createOrder);
+  .post(ensureLoggedIn, validate(createOrderSchema), createOrder);
 
 /**
  * GET    /customers/:customerId/orders/:id
@@ -28,7 +30,7 @@ router
 router
   .route("/:id")
   .get(ensureLoggedIn, getOrderById)
-  .put(ensureLoggedIn, updateOrder)
+  .put(ensureLoggedIn, validate(updateOrderSchema), updateOrder)
   .delete(ensureLoggedIn, deleteOrder);
 
 export default router;

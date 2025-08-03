@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes";
 import customerRoutes from "./routes/customerRoutes";
 import analyticsRoutes from "./routes/analyticsRoutes";
 import orderRoutes from "./routes/orderRoutes";
+import productRoutes from "./routes/productRoutes";
 import { ExpressError, NotFoundError } from "./helpers/errors";
 import { authenticateJWT } from "./middleware/auth";
 
@@ -23,6 +24,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/customers/:customerId/orders", orderRoutes);
+app.use("/api/products", productRoutes);
 
 // Health check
 app.get("/health", (_req, res) => {
