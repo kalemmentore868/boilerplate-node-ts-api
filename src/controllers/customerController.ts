@@ -3,6 +3,7 @@ import { db } from "../db";
 import { Customers } from "../db/schema";
 import { NotFoundError, BadRequestError } from "../helpers/errors";
 import { eq, sql } from "drizzle-orm";
+import { validate as isUUID } from "uuid";
 
 export async function getAllCustomers(
   req: Request,
@@ -27,6 +28,9 @@ export async function getCustomerById(
 ) {
   try {
     const { id } = req.params;
+    if (!isUUID(id)) {
+      throw new NotFoundError(`Customer not found: ${id}`);
+    }
     const [customer] = await db
       .select()
       .from(Customers)
@@ -83,6 +87,10 @@ export async function updateCustomer(
     const { id } = req.params;
     const data = req.body;
 
+    if (!isUUID(id)) {
+      throw new NotFoundError(`Customer not found: ${id}`);
+    }
+
     // Check exists
     const [{ count }] = await db
       .select({ count: sql`COUNT(*)` })
@@ -113,6 +121,9 @@ export async function deleteCustomer(
 ) {
   try {
     const { id } = req.params;
+    if (!isUUID(id)) {
+      throw new NotFoundError(`Customer not found: ${id}`);
+    }
     const result = await db
       .delete(Customers)
       .where(eq(Customers.id, id))

@@ -3,6 +3,7 @@ import { db } from "../db";
 import { OrderItems, Orders, Products } from "../db/schema";
 import { NotFoundError, BadRequestError } from "../helpers/errors";
 import { eq, InferInsertModel, sql } from "drizzle-orm";
+import { validate as isUUID } from "uuid";
 
 // GET /customers/:customerId/orders
 export async function getOrdersForCustomer(
@@ -12,6 +13,9 @@ export async function getOrdersForCustomer(
 ) {
   try {
     const { customerId } = req.params;
+    if (!isUUID(customerId)) {
+      throw new NotFoundError(`Customer not found: ${customerId}`);
+    }
     const orders = await db
       .select()
       .from(Orders)
@@ -34,6 +38,14 @@ export async function getOrderById(
 ) {
   try {
     const { id, customerId } = req.params;
+
+    if (!isUUID(id)) {
+      throw new NotFoundError(`Order not found: ${id}`);
+    }
+
+    if (!isUUID(customerId)) {
+      throw new NotFoundError(`Customer not found: ${customerId}`);
+    }
 
     // 1️⃣ Fetch the order itself
     const [order] = await db
@@ -84,6 +96,11 @@ export async function createOrder(
 ) {
   try {
     const { customerId } = req.params;
+
+    if (!isUUID(customerId)) {
+      throw new BadRequestError(`Invalid Customer ID: ${customerId}`);
+    }
+
     const {
       orderDate,
       scheduledDeliveryDate,
@@ -185,6 +202,14 @@ export async function updateOrder(
 ) {
   try {
     const { id, customerId } = req.params;
+
+    if (!isUUID(id)) {
+      throw new NotFoundError(`Order not found: ${id}`);
+    }
+
+    if (!isUUID(customerId)) {
+      throw new NotFoundError(`Customer not found: ${customerId}`);
+    }
     const {
       orderDate,
       scheduledDeliveryDate,
@@ -301,6 +326,13 @@ export async function deleteOrder(
 ) {
   try {
     const { id, customerId } = req.params;
+    if (!isUUID(id)) {
+      throw new NotFoundError(`Order not found: ${id}`);
+    }
+
+    if (!isUUID(customerId)) {
+      throw new NotFoundError(`Customer not found: ${customerId}`);
+    }
     const result = await db
       .delete(Orders)
       .where(sql`${Orders.id} = ${id} AND ${Orders.customerId} = ${customerId}`)
