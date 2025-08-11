@@ -1,6 +1,0 @@
-{
-  "databaseURL": "https://Kalem-Mentore-s-workspace-tu760o.us-east-1.xata.sh/db/Demo-Toy-App",
-  "codegen": {
-    "output": "src/xata.ts"
-  }
-}
