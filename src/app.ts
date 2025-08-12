@@ -28,7 +28,6 @@ app.use(
 );
 
 app.use(corsMiddleware);
-app.options("*", corsMiddleware);
 
 app.use(express.json()); // parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // parse URL-encoded bodies
